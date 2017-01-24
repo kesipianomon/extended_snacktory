@@ -151,6 +151,9 @@ public class ArticleTextExtractor {
         }
 
         if (bestMatchElement != null) {
+        	
+        	res.setTopNode(formatter.getFormattedNode(bestMatchElement));
+        	
             List<ImageResult> images = new ArrayList<ImageResult>();
             Element imgEl = determineImageSource(bestMatchElement, images);
             if (imgEl != null) {
@@ -413,8 +416,10 @@ public class ArticleTextExtractor {
         int maxWeight = 0;
         Element maxNode = null;
         Elements els = el.select("img");
-        if (els.isEmpty())
-            els = el.parent().select("img");        
+        if (els.isEmpty()) {
+        	if(el.parent() != null)
+        		els = el.parent().select("img");
+        }
         
         double score = 1;
         for (Element e : els) {

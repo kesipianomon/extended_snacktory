@@ -70,3 +70,4 @@ TODOs
 # Build
 
 via Maven. Maven will automatically resolve dependencies to jsoup, log4j and slf4j-api
+# extended_snacktory

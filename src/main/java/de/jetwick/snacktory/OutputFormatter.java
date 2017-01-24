@@ -66,6 +66,23 @@ public class OutputFormatter {
         // snippet again to avoid html tags disturbing our text:
         return Jsoup.parse(str).text();
     }
+    
+    public Element getFormattedNode(Element topNode) {
+    	removeNodesWithNegativeScores(topNode);
+        StringBuilder sb = new StringBuilder();
+        append(topNode, sb, nodesToKeepCssSelector);
+        String str = SHelper.innerTrim(sb.toString());
+        if (str.length() > 100)
+            return topNode;
+
+        // no subelements
+        if (str.isEmpty() || !topNode.text().isEmpty() && str.length() <= topNode.ownText().length())
+            str = topNode.text();
+
+        // if jsoup failed to parse the whole html now parse this smaller 
+        // snippet again to avoid html tags disturbing our text:
+        return topNode;//Jsoup.parse(str).text();
+    }
 
     /**
      * Takes an element and returns a list of texts extracted from the P tags
@@ -86,10 +103,14 @@ public class OutputFormatter {
      */
     protected void removeNodesWithNegativeScores(Element topNode) {
         Elements gravityItems = topNode.select("*[gravityScore]");
+        if(gravityItems == null)
+        	return;
         for (Element item : gravityItems) {
             int score = Integer.parseInt(item.attr("gravityScore"));
-            if (score < 0 || item.text().length() < minParagraphText)
-                item.remove();
+            if (score < 0 || item.text().length() < minParagraphText) {
+                if(item != null && item.parent() != null)
+                	item.remove();
+            }
         }
     }
 

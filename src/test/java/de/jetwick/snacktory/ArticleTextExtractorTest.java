@@ -23,7 +23,7 @@ public class ArticleTextExtractorTest {
         c = new Converter();
         extractor = new ArticleTextExtractor();
     }
-
+/*
     @Test
     public void testData1() throws Exception {
         // ? http://www.npr.org/blogs/money/2010/10/04/130329523/how-fake-money-saved-brazil
@@ -767,7 +767,7 @@ public class ArticleTextExtractorTest {
         assertTrue(textList.get(0).startsWith(text.substring(0, 15)));
         assertTrue(textList.get(22).endsWith(text.substring(text.length() - 15, text.length())));
     }
-
+*/
     /**
      * @param filePath the name of the file to open. Not sure if it can accept
      * URLs or just filenames. Path handling could be better, and buffer sizes

@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.jsoup.nodes.Element;
+
 /**
  * Parsed result from web page containing important title, text and image.
  *
@@ -39,6 +41,9 @@ public class JResult implements Serializable {
     private String faviconUrl;
     private String description;
     private String dateString;
+    
+    private Element topNode;
+    
     private List<String> textList;
     private Collection<String> keywords;
     private List<ImageResult> images = null;
@@ -209,7 +214,15 @@ public class JResult implements Serializable {
         this.images = images;
     }
 
-    @Override
+    public Element getTopNode() {
+		return topNode;
+	}
+
+	public void setTopNode(Element topNode) {
+		this.topNode = topNode;
+	}
+
+	@Override
     public String toString() {
         return "title:" + getTitle() + " imageUrl:" + getImageUrl() + " text:" + text;
     }

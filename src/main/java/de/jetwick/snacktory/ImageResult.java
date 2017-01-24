@@ -27,4 +27,8 @@ public class ImageResult {
         this.alt = alt;
         this.noFollow = noFollow;
     }
+    
+    public String toString() {
+    	return src;
+    }
 }
