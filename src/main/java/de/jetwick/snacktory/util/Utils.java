@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,6 +81,14 @@ public class Utils {
 		}
 		
 		return json;
+	}
+	
+	public static void string2File(String filePath, String text) {
+		try(  PrintWriter out = new PrintWriter(filePath)  ){
+		    out.println( text );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static List<String> readLine(String filePath) {

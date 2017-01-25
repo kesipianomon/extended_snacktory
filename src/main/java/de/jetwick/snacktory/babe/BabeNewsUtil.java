@@ -11,6 +11,7 @@ import de.jetwick.snacktory.ArticleTextExtractor;
 import de.jetwick.snacktory.JResult;
 import de.jetwick.snacktory.util.DistanceUtil;
 import de.jetwick.snacktory.util.HttpUtil;
+import de.jetwick.snacktory.util.PhantomJSUtil;
 import de.jetwick.snacktory.util.Utils;
 import info.debatty.java.stringsimilarity.Levenshtein;
 
@@ -27,11 +28,7 @@ public class BabeNewsUtil {
 		ArticleTextExtractor extractor = new ArticleTextExtractor();
 		JResult res = null;
 		try {
-			Document doc = Jsoup.connect(url).header("Accept-Encoding", "gzip, deflate")
-				    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
-				    .maxBodySize(0)
-				    .timeout(50000)
-				    .get();
+			Document doc = PhantomJSUtil.getPage(url);
 			
 			res = extractor.extractContent(doc);
 			

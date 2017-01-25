@@ -125,14 +125,28 @@ public class ArticleTextExtractor {
         return extractContent(res, Jsoup.parse(html), formatter);
     }
 
+    /**
+     * The main extract content function
+     * @param res
+     * @param doc
+     * @param formatter
+     * @return
+     * @throws Exception
+     */
     public JResult extractContent(JResult res, Document doc, OutputFormatter formatter) throws Exception {
         if (doc == null)
             throw new NullPointerException("missing document");
 
+        /**
+         * Extract data by meta-tag
+         */
         res.setTitle(extractTitle(doc));
         res.setDescription(extractDescription(doc));
         res.setCanonicalUrl(extractCanonicalUrl(doc));
 
+        /**
+         * Extract data by inspecting the main-html-element
+         */
         // now remove the clutter
         prepareDocument(doc);
 
@@ -186,7 +200,54 @@ public class ArticleTextExtractor {
         return res;
     }
 
+    /**
+     * Extract title by the common head-meta-tag
+     * @param doc
+     * @return
+     */
     protected String extractTitle(Document doc) {
+    	// #1 title
+    	String title = cleanTitle(doc.title());
+    	System.out.println("First: " + title);
+    	// #2 title
+    	String title2 = SHelper.innerTrim(doc.select("head title").text());
+    	System.out.println("Second: " + title2);
+    	// #3 title
+    	String title3 = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
+    	System.out.println("Third: " + title3);
+    	// #4 title
+    	String title4 = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+    	System.out.println("Fourth: " + title4);
+    	// #5 title
+    	String title5 = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
+    	System.out.println("Fifth: " + title5);
+    	
+    	// #6 title #content-134600 > div.banner > div.title.post__heading
+    	String title6 = SHelper.innerTrim(doc.select("body div.banner .title").text());
+    	System.out.println(doc.select("body div.banner").text());
+    	System.out.println("Sixth: " + title6);
+    	
+        if (title.isEmpty()) {
+            title = SHelper.innerTrim(doc.select("head title").text());
+            if (title.isEmpty()) {
+                title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
+                if (title.isEmpty()) {
+                    title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+                    if (title.isEmpty()) {
+                        title = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
+                    }
+                }
+            }
+        }
+        
+        /**
+         * TODO: clean title after extracting
+         */
+        
+        return title;
+    }
+    
+    protected String extractTitle_origin(Document doc) {
         String title = cleanTitle(doc.title());
         if (title.isEmpty()) {
             title = SHelper.innerTrim(doc.select("head title").text());
@@ -200,9 +261,19 @@ public class ArticleTextExtractor {
                 }
             }
         }
+        
+        /**
+         * TODO: clean title after extracting
+         */
+        
         return title;
     }
 
+    /**
+     * Extract canonical-url by common head-meta-tag
+     * @param doc
+     * @return
+     */
     protected String extractCanonicalUrl(Document doc) {
         String url = SHelper.replaceSpaces(doc.select("head link[rel=canonical]").attr("href"));
         if (url.isEmpty()) {
@@ -214,6 +285,11 @@ public class ArticleTextExtractor {
         return url;
     }
 
+    /**
+     * Extract description by head-meta-tag
+     * @param doc
+     * @return
+     */
     protected String extractDescription(Document doc) {
         String description = SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
         if (description.isEmpty()) {
@@ -222,6 +298,11 @@ public class ArticleTextExtractor {
                 description = SHelper.innerTrim(doc.select("head meta[name=twitter:description]").attr("content"));
             }
         }
+        
+        /**
+         * TODO clean description
+         */
+        
         return description;
     }
 
