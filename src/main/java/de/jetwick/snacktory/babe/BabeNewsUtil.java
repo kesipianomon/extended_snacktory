@@ -30,7 +30,7 @@ public class BabeNewsUtil {
 			Document doc = Jsoup.connect(url).header("Accept-Encoding", "gzip, deflate")
 				    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
 				    .maxBodySize(0)
-				    .timeout(6000)
+				    .timeout(50000)
 				    .get();
 			
 			res = extractor.extractContent(doc);
@@ -118,6 +118,8 @@ public class BabeNewsUtil {
 			CompareResult c = compareData(article);
 			compared.add(c);
 			count ++;
+			if(count > 10)
+				break;
 			
 		}
 		String filePath = "/home/mainspring/tutorial/learn/content-extractor/data/compared_result.csv";
@@ -136,6 +138,7 @@ public class BabeNewsUtil {
 			compared.add(c);
 			count ++;
 			
+			
 		}
 		//String filePath = "/home/mainspring/tutorial/learn/content-extractor/data/compared_result.csv";
 		Utils.writeCSV(compared, compared_path);
@@ -144,15 +147,17 @@ public class BabeNewsUtil {
 	
 	public static void main(String[] args) {
 		
-//		for(String arg : args) {
-//			System.out.println(arg);
-//		}
-//		if(args.length >= 2) {
-//			String article_path =args[0];
-//			String compared_path = args[1];
-//			checkBabeService(article_path, compared_path);
-//		}
-		checkBabeService();
+		for(String arg : args) {
+			System.out.println(arg);
+		}
+		if(args.length >= 2) {
+			String article_path =args[0];
+			String compared_path = args[1];
+			checkBabeService(article_path, compared_path);
+		}
+		
+		//checkBabeService();
+		
 		//checkBabeData();
 		//extractData();
 	}

@@ -33,6 +33,8 @@ public class CompareResult {
 	}
 	
 	public CompareResult(JResult origin) {
+		id = origin.getId();
+		
 		babe_url = origin.getCanonicalUrl();
 		lib_url = "";
 		

@@ -30,6 +30,8 @@ import org.jsoup.nodes.Element;
  */
 public class JResult implements Serializable {
 
+	private String id;
+	
     private String title;
     private String url;
     private String originalUrl;
@@ -226,4 +228,12 @@ public class JResult implements Serializable {
     public String toString() {
         return "title:" + getTitle() + " imageUrl:" + getImageUrl() + " text:" + text;
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }
