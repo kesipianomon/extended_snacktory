@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
+import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
 import de.jetwick.snacktory.JResult;
@@ -135,24 +137,53 @@ public class Utils {
 		}
 	}
 	
+	public static List<CompareResult> readCSV(String filePath) {
+		
+		List<CompareResult> resultList = new ArrayList<CompareResult>();
+		try {
+			
+			CsvReader result = new CsvReader(filePath);
+		
+			result.readHeaders();
+
+			while (result.readRecord())
+			{
+				try {
+					String id = result.get("id");
+					String source_id = result.get("source_id");
+					String babe_url= result.get("babe_url");
+					String lib_url = result.get("lib_url");
+					String babe_title = result.get("babe_title");
+					String lib_title = result.get("lib_title");
+					int title_distance = Integer.parseInt(result.get("title_distance"));
+					int babe_title_len = Integer.parseInt(result.get("babe_title_len"));
+					int lib_title_len = Integer.parseInt(result.get("lib_title_len"));
+					int content_distance = Integer.parseInt(result.get("content_distance"));
+					int babe_content_len = Integer.parseInt(result.get("babe_content_len"));
+					int lib_content_len = Integer.parseInt(result.get("lib_content_len"));
+					
+					CompareResult compared = new CompareResult(id, source_id, babe_url, lib_url, babe_title, 
+							lib_title, title_distance, babe_title_len, lib_title_len, content_distance, babe_content_len, lib_content_len);
+					resultList.add(compared);
+				} catch (Exception e) {
+					
+				}
+			}
+	
+			result.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return resultList;
+		
+	}
 	
 	public static void writeCSV(List<CompareResult> data, String filePath) {
-		/*
-		 * public String id = "";
-	public String source_id = "";
-	public String babe_url;
-	public String lib_url;
-	public String babe_title;
-	public String lib_title;
-	
-	public int title_distance;
-	public int babe_title_len;
-	public int lib_title_len;
-	
-	public int content_distance;
-	public int babe_content_len;
-	public int lib_content_len;
-		 */
+
 		// before we open the file check to see if it already exists
 		boolean alreadyExists = false;//new File(filePath).exists();
 			

@@ -1,18 +1,9 @@
 package de.jetwick.snacktory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 import de.jetwick.snacktory.util.PhantomJSUtil;
 

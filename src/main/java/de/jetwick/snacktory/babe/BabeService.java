@@ -192,11 +192,37 @@ public class BabeService {
 	}
 	
 	
+	public static List<CompareResult> readCompare(String filePath) {
+		return Utils.readCSV(filePath);
+	}
 	
+	
+	public static void writeCompare(List<CompareResult> compared, String filePath) {
+		Utils.writeCSV(compared, filePath);
+	}
+	
+	public static void filterCompare() {
+		String filePath = "24_1_2016_id_compared_result.csv";
+		List<CompareResult> compList = readCompare(filePath);
+		
+		List<CompareResult> resList = new ArrayList<>();
+		for(CompareResult comp : compList) {
+			System.out.println(comp);
+			if(comp.lib_title_len > 0 && comp.lib_content_len > 0) {
+				resList.add(comp);
+			}
+		}
+		
+		String resPath = "filtered_compared_result.csv";
+		writeCompare(resList, resPath);
+		
+	} 
 	
 	
 	public static void main(String[] args) {
 		//writeActive();
-		writeBabeJSON();
+		//writeBabeJSON();
+		
+		filterCompare();
 	}
 }
