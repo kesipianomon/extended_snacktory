@@ -51,8 +51,16 @@ public class Utils {
 	
 	public static JResult object2Result(JSONObject o) {
 		JResult result = new JResult();
-		
-		result.setId(o.getInt("article_id_l") + "");
+		try {
+			result.setId(o.getInt("article_id_l") + "");
+		} catch (Exception e) {
+			
+		}
+		try {
+			result.setId(o.getInt("id") + "");
+		} catch (Exception e) {
+			
+		}
 		result.setCanonicalUrl(o.getString("url_s"));
 		result.setTitle(o.getString("title_t"));
 

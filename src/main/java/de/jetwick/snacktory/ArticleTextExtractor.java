@@ -208,24 +208,24 @@ public class ArticleTextExtractor {
     protected String extractTitle(Document doc) {
     	// #1 title
     	String title = cleanTitle(doc.title());
-    	System.out.println("First: " + title);
-    	// #2 title
-    	String title2 = SHelper.innerTrim(doc.select("head title").text());
-    	System.out.println("Second: " + title2);
-    	// #3 title
-    	String title3 = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
-    	System.out.println("Third: " + title3);
-    	// #4 title
-    	String title4 = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
-    	System.out.println("Fourth: " + title4);
-    	// #5 title
-    	String title5 = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
-    	System.out.println("Fifth: " + title5);
-    	
-    	// #6 title #content-134600 > div.banner > div.title.post__heading
-    	String title6 = SHelper.innerTrim(doc.select("body div.banner .title").text());
-    	System.out.println(doc.select("body div.banner").text());
-    	System.out.println("Sixth: " + title6);
+//    	System.out.println("First: " + title);
+//    	// #2 title
+//    	String title2 = SHelper.innerTrim(doc.select("head title").text());
+//    	System.out.println("Second: " + title2);
+//    	// #3 title
+//    	String title3 = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
+//    	System.out.println("Third: " + title3);
+//    	// #4 title
+//    	String title4 = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+//    	System.out.println("Fourth: " + title4);
+//    	// #5 title
+//    	String title5 = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
+//    	System.out.println("Fifth: " + title5);
+//    	
+//    	// #6 title #content-134600 > div.banner > div.title.post__heading
+//    	String title6 = SHelper.innerTrim(doc.select("body div.banner .title").text());
+//    	System.out.println(doc.select("body div.banner").text());
+//    	System.out.println("Sixth: " + title6);
     	
         if (title.isEmpty()) {
             title = SHelper.innerTrim(doc.select("head title").text());
@@ -244,8 +244,18 @@ public class ArticleTextExtractor {
          * TODO: clean title after extracting
          */
         
+        
+        
         return title;
     }
+    
+//    private String cleanTitle(String title) {
+//    	String result = title;
+//    	
+//    	
+//    	
+//    	return result;
+//    }
     
     protected String extractTitle_origin(Document doc) {
         String title = cleanTitle(doc.title());
@@ -705,7 +715,11 @@ public class ArticleTextExtractor {
             counter++;
         }
 
-        return SHelper.innerTrim(res.toString());
+        String first = SHelper.innerTrim(res.toString());
+        
+        strs = first.split(" - ");
+        first = strs[0];
+        return SHelper.innerTrim(first);
     }
 
     /**

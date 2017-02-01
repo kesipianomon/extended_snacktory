@@ -106,7 +106,7 @@ public class BabeNewsUtil {
 	}
 	
 	public static void checkBabeService() {
-		String article_path = "/home/mainspring/tutorial/learn/content-extractor/data/articles_json.txt";
+		String article_path = "filtered_articles.json";
 		List<JResult> data = BabeService.readBabeJSON(article_path);
 		
 		int count = 0;
@@ -119,7 +119,7 @@ public class BabeNewsUtil {
 				break;
 			
 		}
-		String filePath = "/home/mainspring/tutorial/learn/content-extractor/data/compared_result.csv";
+		String filePath = "31_2_2016_compared_result.csv";
 		Utils.writeCSV(compared, filePath);
 		
 	}
@@ -142,6 +142,8 @@ public class BabeNewsUtil {
 		
 	}
 	
+	
+	
 	public static void main(String[] args) {
 		
 		for(String arg : args) {
@@ -153,7 +155,7 @@ public class BabeNewsUtil {
 			checkBabeService(article_path, compared_path);
 		}
 		
-		//checkBabeService();
+//		checkBabeService();
 		
 		//checkBabeData();
 		//extractData();

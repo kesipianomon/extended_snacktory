@@ -2,6 +2,7 @@ package de.jetwick.snacktory.babe;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -160,6 +161,19 @@ public class BabeService {
 	}
 	
 	
+	public static List<JResult> readBabeArticleJSON(String filePath) {
+		//String filePath = "/home/mainspring/tutorial/learn/content-extractor/data/articles_json.txt";
+		List<String> data = Utils.readLine(filePath);
+		
+		List<JResult> result = new ArrayList<>();
+		for(String line : data) {
+			JResult r = Utils.object2Result(new JSONObject(line));
+			result.add(r);
+		}
+		
+		return result;
+	}
+	
 	public static List<JResult> readBabeJSON() {
 		String filePath = "/home/mainspring/tutorial/learn/content-extractor/data/articles_json.txt";
 		List<String> data = Utils.readLine(filePath);
@@ -218,11 +232,55 @@ public class BabeService {
 		
 	} 
 	
+	public static List<String> checkFiltered() {
+		String filePath = "filtered_compared_result.csv";
+		List<CompareResult> compList = readCompare(filePath);
+		
+		List<String> resList = new ArrayList<>();
+		for(CompareResult comp : compList) {
+			System.out.println(comp);
+			resList.add(comp.id);
+		}
+		
+		return resList;
+	}
+	
+	public static void writeFilteredId() {
+		String filePath = "filtered_ids.txt";
+		List<String> idList = checkFiltered();
+		
+		Utils.writeLine(idList, filePath);
+	}
+	
+	public static void filterArticle() {
+		String filePath = "filtered_ids.txt";
+		
+		List<String> ids = Utils.readLine(filePath);
+		HashSet<String> idSet = new HashSet<>();
+		idSet.addAll(ids);
+		
+		filePath = "articles_json.txt";
+		List<JResult> articles = readBabeArticleJSON(filePath);
+		
+		List<JResult> filtered = new ArrayList<>();
+		for(JResult r : articles) {
+			if(idSet.contains(r.getId())) {
+				filtered.add(r);
+			}
+		}
+		
+		JSONArray filtered_json = Utils.result2JSON(filtered);
+		filePath = "filtered_articles.json";
+		writeJSONList(filtered_json, filePath);
+	}
+	
 	
 	public static void main(String[] args) {
 		//writeActive();
 		//writeBabeJSON();
 		
-		filterCompare();
+		//filterCompare();
+		//writeFilteredId();
+		filterArticle();
 	}
 }
