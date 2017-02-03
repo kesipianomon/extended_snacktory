@@ -115,8 +115,8 @@ public class BabeNewsUtil {
 			CompareResult c = compareData(article);
 			compared.add(c);
 			count ++;
-			if(count > 10)
-				break;
+			//if(count > 10)
+				//break;
 			
 		}
 		String filePath = "31_2_2016_compared_result.csv";
@@ -146,16 +146,16 @@ public class BabeNewsUtil {
 	
 	public static void main(String[] args) {
 		
-		for(String arg : args) {
-			System.out.println(arg);
-		}
-		if(args.length >= 2) {
-			String article_path =args[0];
-			String compared_path = args[1];
-			checkBabeService(article_path, compared_path);
-		}
+//		for(String arg : args) {
+//			System.out.println(arg);
+//		}
+//		if(args.length >= 2) {
+//			String article_path =args[0];
+//			String compared_path = args[1];
+//			checkBabeService(article_path, compared_path);
+//		}
 		
-//		checkBabeService();
+		checkBabeService();
 		
 		//checkBabeData();
 		//extractData();

@@ -207,6 +207,7 @@ public class ArticleTextExtractor {
      */
     protected String extractTitle(Document doc) {
     	// #1 title
+    	
     	String title = cleanTitle(doc.title());
 //    	System.out.println("First: " + title);
 //    	// #2 title
@@ -232,7 +233,7 @@ public class ArticleTextExtractor {
             if (title.isEmpty()) {
                 title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
                 if (title.isEmpty()) {
-                    title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+                	title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
                     if (title.isEmpty()) {
                         title = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
                     }
@@ -243,7 +244,7 @@ public class ArticleTextExtractor {
         /**
          * TODO: clean title after extracting
          */
-        
+        title = cleanTitle(title);
         
         
         return title;
