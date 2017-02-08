@@ -1,13 +1,8 @@
-package de.jetwick.snacktory;
+package de.jetwick.snacktory.model;
 
 import org.jsoup.nodes.Element;
 
-/**
- * Class which encapsulates the data from an image found under an element
- *
- * @author Chris Alexander, chris@chris-alexander.co.uk
- */
-public class ImageResult {
+public class LinkResult {
 
     public String src;
     public Integer weight;
@@ -18,7 +13,7 @@ public class ImageResult {
     public boolean noFollow;
     public Element element;
 
-    public ImageResult(String src, Integer weight, String title, int height, int width, String alt, boolean noFollow) {
+    public LinkResult(String src, Integer weight, String title, int height, int width, String alt, boolean noFollow) {
         this.src = src;
         this.weight = weight;
         this.title = title;

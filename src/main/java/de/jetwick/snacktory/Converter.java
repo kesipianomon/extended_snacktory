@@ -21,6 +21,8 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.jetwick.snacktory.util.SHelper;
+
 /**
  * This class is not thread safe. Use one new instance every time due to
  * encoding variable.

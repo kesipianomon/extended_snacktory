@@ -35,6 +35,9 @@ import java.util.zip.InflaterInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.jetwick.snacktory.model.JResult;
+import de.jetwick.snacktory.util.SHelper;
+
 /**
  * Class to fetch articles. This class is thread safe.
  *

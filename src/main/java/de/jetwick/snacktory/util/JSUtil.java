@@ -11,7 +11,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 
-public class PhantomJSUtil {
+public class JSUtil {
 	
 	public static String getFullHtml(String url) {
 		// Init driver

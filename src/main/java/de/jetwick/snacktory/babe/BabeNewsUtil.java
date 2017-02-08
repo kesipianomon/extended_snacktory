@@ -8,10 +8,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import de.jetwick.snacktory.ArticleTextExtractor;
-import de.jetwick.snacktory.JResult;
+import de.jetwick.snacktory.model.JResult;
 import de.jetwick.snacktory.util.DistanceUtil;
 import de.jetwick.snacktory.util.HttpUtil;
-import de.jetwick.snacktory.util.PhantomJSUtil;
+import de.jetwick.snacktory.util.JSUtil;
 import de.jetwick.snacktory.util.Utils;
 import info.debatty.java.stringsimilarity.Levenshtein;
 
@@ -28,7 +28,7 @@ public class BabeNewsUtil {
 		ArticleTextExtractor extractor = new ArticleTextExtractor();
 		JResult res = null;
 		try {
-			Document doc = PhantomJSUtil.getPage(url);
+			Document doc = JSUtil.getPage(url);
 			
 			res = extractor.extractContent(doc);
 			

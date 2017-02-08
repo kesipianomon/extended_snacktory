@@ -25,8 +25,8 @@ import org.jsoup.parser.Parser;
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
-import de.jetwick.snacktory.JResult;
 import de.jetwick.snacktory.babe.CompareResult;
+import de.jetwick.snacktory.model.JResult;
 
 public class Utils {
 	

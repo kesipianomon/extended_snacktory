@@ -1,6 +1,6 @@
 package de.jetwick.snacktory.babe;
 
-import de.jetwick.snacktory.JResult;
+import de.jetwick.snacktory.model.JResult;
 
 public class CompareResult {
 	public String id = "";

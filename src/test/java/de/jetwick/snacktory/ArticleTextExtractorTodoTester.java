@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.jetwick.snacktory.model.JResult;
+
 import static org.junit.Assert.*;
 
 public class ArticleTextExtractorTodoTester {

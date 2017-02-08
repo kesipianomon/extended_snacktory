@@ -5,7 +5,8 @@ import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.jetwick.snacktory.util.PhantomJSUtil;
+import de.jetwick.snacktory.model.JResult;
+import de.jetwick.snacktory.util.JSUtil;
 
 /**
  * @author Alex P, (ifesdjeen from jreadability)
@@ -47,7 +48,7 @@ public class BabeExtractorTest {
     }
     
     public void extractTitle(String url, ArticleTextExtractor extractor) throws Exception {
-    	Document doc = PhantomJSUtil.renderPage(url);
+    	Document doc = JSUtil.renderPage(url);
     	
         JResult res = extractor.extractContent(doc);
         

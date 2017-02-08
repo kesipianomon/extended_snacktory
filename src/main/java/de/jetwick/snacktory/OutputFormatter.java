@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import de.jetwick.snacktory.util.SHelper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

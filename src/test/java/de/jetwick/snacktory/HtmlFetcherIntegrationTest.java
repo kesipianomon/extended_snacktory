@@ -16,6 +16,9 @@
 package de.jetwick.snacktory;
 
 import org.junit.Test;
+
+import de.jetwick.snacktory.model.JResult;
+
 import static org.junit.Assert.*;
 
 /**

@@ -8,7 +8,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.jetwick.snacktory.JResult;
+import de.jetwick.snacktory.model.JResult;
 import de.jetwick.snacktory.util.HttpUtil;
 import de.jetwick.snacktory.util.Utils;
 

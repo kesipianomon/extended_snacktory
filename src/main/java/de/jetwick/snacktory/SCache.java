@@ -15,6 +15,8 @@
  */
 package de.jetwick.snacktory;
 
+import de.jetwick.snacktory.model.JResult;
+
 /**
  *
  * @author Peter Karich
