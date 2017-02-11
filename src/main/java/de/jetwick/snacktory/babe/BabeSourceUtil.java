@@ -7,6 +7,7 @@ import java.util.Set;
 
 import de.jetwick.snacktory.ArticleLinkExtractor;
 import de.jetwick.snacktory.model.JResult;
+import de.jetwick.snacktory.util.JsUtil;
 import de.jetwick.snacktory.util.Utils;
 
 public class BabeSourceUtil {
@@ -156,6 +157,21 @@ public class BabeSourceUtil {
 		Utils.writeLine(result, filePath);
 	}
 	
+	public static void writeOgSources() {
+		List<String> og_ss = Utils.readLine("og_source.txt");
+		
+		HashSet<String> ss = new HashSet<>();
+		for(String s: og_ss) {
+			String og = ArticleLinkExtractor.getHost(JsUtil.getFinalURL(Utils.url(s)));
+			ss.add(s);
+		}
+		
+		List<String> result = new ArrayList<>();
+		result.addAll(ss);
+		String filePath = "og_sources.txt";
+		Utils.writeLine(result, filePath);
+	}
+	
 	public static void writeExceptSource() {
 		List<String> ogUrls= readExceptUrls();
 		
@@ -176,11 +192,66 @@ public class BabeSourceUtil {
 	}
 	
 	
+	public static List<String> readSource(String filePath) {
+		List<String> result = Utils.readLine(filePath);
+		return result;
+	}
+	
+	public static void parseSourceCategory() {
+		String filePath = "og_source.txt";
+		List<String> ogSource = readSource(filePath);
+		List<String> out = new ArrayList<>();
+		for(int i = 3 ; i < ogSource.size() ; i ++) {
+			String source = ogSource.get(i);
+			//source = "bogorpos.com";
+			System.out.println("\n\n");
+			System.out.println(source);
+			List<String> catList = ArticleLinkExtractor.printCategoryHref(Utils.url(source));
+			out.addAll(catList);
+			if(i > 100)
+				break;
+		}
+		
+		Utils.writeLine(out, "og_source_cat.txt");
+	}
+	
+	public static void parseSourceArticle() {
+		String filePath = "og_source.txt";
+		List<String> ogSource = readSource(filePath);
+		List<String> out = new ArrayList<>();
+		for(int i = 3 ; i < ogSource.size() ; i ++) {
+			String source = ogSource.get(i);
+			//source = "bogorpos.com";
+			System.out.println("\n\n");
+			System.out.println(source);
+			List<String> catList = ArticleLinkExtractor.printArticleHref(Utils.url(source));
+			out.addAll(catList);
+			if(i > 10)
+				break;
+		}
+		
+		Utils.writeLine(out, "og_source_article.txt");
+	}
+	
+	public static void parseSource() {
+		String source = "http://bogorpos.com";
+		try {
+			String filePath = "sample.html";
+			Utils.writeString(JsUtil.getPage(source).outerHtml(), filePath);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		//checkBabeService();
 		//writeOgSource();
-		//writeOgSource();
-		writeExceptSource();
+		//writeOgSources();
+		//writeExceptSource();
+		//parseSourceCategory();
+		parseSourceArticle();
+		//parseSource();
 	}
 }

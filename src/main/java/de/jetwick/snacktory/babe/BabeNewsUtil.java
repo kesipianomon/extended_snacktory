@@ -11,7 +11,7 @@ import de.jetwick.snacktory.ArticleTextExtractor;
 import de.jetwick.snacktory.model.JResult;
 import de.jetwick.snacktory.util.DistanceUtil;
 import de.jetwick.snacktory.util.HttpUtil;
-import de.jetwick.snacktory.util.JSUtil;
+import de.jetwick.snacktory.util.JsUtil;
 import de.jetwick.snacktory.util.Utils;
 import info.debatty.java.stringsimilarity.Levenshtein;
 
@@ -28,7 +28,7 @@ public class BabeNewsUtil {
 		ArticleTextExtractor extractor = new ArticleTextExtractor();
 		JResult res = null;
 		try {
-			Document doc = JSUtil.getPage(url);
+			Document doc = JsUtil.getPage(url);
 			
 			res = extractor.extractContent(doc);
 			

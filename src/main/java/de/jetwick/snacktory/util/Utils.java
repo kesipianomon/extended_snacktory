@@ -145,6 +145,24 @@ public class Utils {
 		}
 	}
 	
+	public static void writeString(String data, String filePath){
+		
+		try {
+			File fout = new File(filePath);
+			FileOutputStream fos = new FileOutputStream(fout);
+		 
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		 
+				bw.write(data);
+				bw.newLine();
+			
+		 
+			bw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static List<CompareResult> readCSV(String filePath) {
 		
 		List<CompareResult> resultList = new ArrayList<CompareResult>();
@@ -239,6 +257,10 @@ public class Utils {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static String url(String source) {
+		return "http://" + source;
 	}
 	
 	

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.jetwick.snacktory.model.JResult;
-import de.jetwick.snacktory.util.JSUtil;
+import de.jetwick.snacktory.util.JsUtil;
 
 /**
  * @author Alex P, (ifesdjeen from jreadability)
@@ -48,7 +48,7 @@ public class BabeExtractorTest {
     }
     
     public void extractTitle(String url, ArticleTextExtractor extractor) throws Exception {
-    	Document doc = JSUtil.renderPage(url);
+    	Document doc = JsUtil.renderPage(url);
     	
         JResult res = extractor.extractContent(doc);
         

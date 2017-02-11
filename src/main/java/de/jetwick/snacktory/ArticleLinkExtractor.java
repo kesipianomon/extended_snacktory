@@ -6,6 +6,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -14,13 +16,14 @@ import org.jsoup.select.Elements;
 
 import com.google.common.net.InternetDomainName;
 
-import de.jetwick.snacktory.util.JSUtil;
+import de.jetwick.snacktory.util.JsUtil;
 import de.jetwick.snacktory.util.SHelper;
 
 public class ArticleLinkExtractor {
 
 	public static void main(String[] args) {
-		String url = "https://chromplex.com/google-akan-matikan-google-now-launcher-dalam-beberapa-minggu-kedepan/"; 
+		String url = "http://www.bahasfilm.net/"; 
+				//"https://chromplex.com/google-akan-matikan-google-now-launcher-dalam-beberapa-minggu-kedepan/"; 
 				//"http://www.travelerien.com"; 
 				//"http://www.foodgrapher.com"; 
 				//"http://bola.inilah.com/read/detail/2267356/aguero-perpaduan-sempurna-dari-messi-dan-henry";
@@ -28,11 +31,160 @@ public class ArticleLinkExtractor {
 		String ogType = getOgType(url);
 		System.out.println(ogType);
 	}
+	
+	public static List<String> getCategoryHref(String source) {
+		List<String> result = new ArrayList<String>();
+		
+		Document doc = getDocument(source);
+
+		if (doc == null)
+			return result;
+
+		String baseHost = rootHost(source);
+
+		Elements links = doc.select("a[href]");
+
+		print("\nLinks: (%d)", links.size());
+		for (Element link : links) {
+			String url = link.attr("abs:href");
+			String text = link.text();
+
+			if (url != null && url.length() > 0) {
+				String host = rootHost(url);
+				//System.out.println(host);
+				String type = getOgType(url);
+				if (baseHost.equalsIgnoreCase(host))
+					if(type != null && type.equalsIgnoreCase("website")) {
+						print(" * a: %s <%s> <%s> (%s)", type, host, url, trim(text, 35));
+						result.add(url);
+					}
+			}
+		}
+		
+		return result;
+	}
+	
+	public static Element getBestCategoryElement(Document doc) {
+		// now remove the clutter
+        HtmlExtractor.prepareDocument(doc);
+
+        // init elements
+        Collection<Element> nodes = HtmlExtractor.getNodes(doc);
+        int maxWeight = 0;
+        Element bestMatchElement = null;
+        for (Element entry : nodes) {
+            int currentWeight = HtmlExtractor.getCategoryWeight(entry);
+            if (currentWeight > maxWeight) {
+                maxWeight = currentWeight;
+                bestMatchElement = entry;
+                
+            }
+        }
+
+        if (bestMatchElement != null) {
+        	return bestMatchElement;
+        }
+        return doc;
+	}
+	
+	public static List<String> printCategoryHref(String source) {
+		List<String> result = new ArrayList<String>();
+		result.add("\n\n");
+		result.add(source);
+		
+		Document doc = getDocument(source);
+		//System.out.println(doc.html());
+		if (doc == null)
+			return result;
+
+		String baseHost = rootHost(source);
+
+		//Element bestMatch = getBestCategoryElement(doc);
+		Elements links = doc.select("li a[href]");
+
+		print("\nLinks: (%d)", links.size());
+		
+		HashSet<String> ss = new HashSet<>();
+		int count = 0;
+		for (Element link : links) {
+			String url = link.attr("abs:href");
+			String text = link.text();
+
+			if (url != null && url.length() > 0) {
+				if(!ss.contains(url)) {
+					String host = rootHost(url);
+					//System.out.println(host);
+					String type = getOgType(url);
+					if (baseHost.equalsIgnoreCase(host))
+						if(type == null || !type.equalsIgnoreCase("article")) {
+							System.out.println(count++);
+							
+							String data = print("<%s> <%s> (%s)", host, url, text);
+							System.out.println(link.outerHtml());
+							result.add(data);
+								
+						}
+					ss.add(url);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	
+	
+	public static List<String> printArticleHref(String source) {
+		List<String> result = new ArrayList<String>();
+		result.add("\n\n");
+		result.add(source);
+		
+		
+		Document doc = getDocument(source);
+		//System.out.println(doc.html());
+		if (doc == null)
+			return result;
+
+		String baseHost = rootHost(source);
+
+		//Element bestMatch = getBestCategoryElement(doc);
+		Elements links = doc.select("a[href]");
+
+		print("\nLinks: (%d)", links.size());
+		
+		HashSet<String> ss = new HashSet<>();
+		int count = 0;
+		for (Element link : links) {
+			String url = link.attr("abs:href");
+			String text = link.text();
+
+			if (url != null && url.length() > 0) {
+				if(!ss.contains(url)) {
+					String host = rootHost(url);
+					//System.out.println(host);
+					String type = getOgType(url);
+					if (baseHost.equalsIgnoreCase(host))
+						if(type != null && type.equalsIgnoreCase("article")) {
+							System.out.println(count++);
+							
+							String data = print("<%s> <%s> (%s)", host, url, trim(text,20));
+							System.out.println(link.outerHtml());
+							result.add(data);
+								
+						}
+					ss.add(url);
+				}
+			}
+		}
+		
+		return result;
+	}
 
 	public static List<String> getHref(String pageUrl) {
 		List<String> result = new ArrayList<String>();
 
 		Document doc = getDocument(pageUrl);
+		
 
 		if (doc == null)
 			return result;
@@ -50,22 +202,26 @@ public class ArticleLinkExtractor {
 				String host = rootHost(url);
 				//System.out.println(host);
 				String type = getOgType(url);
-				if (baseHost.equalsIgnoreCase(host))
+				if (baseHost.equalsIgnoreCase(host)) {
 					print(" * a: %s <%s> <%s> (%s)", type, host, link.attr("abs:href"), trim(link.text(), 35));
+					
+				}
 			}
 		}
 
 		return result;
 	}
 
-	private static void print(String msg, Object... args) {
-		System.out.println(String.format(msg, args));
+	private static String print(String msg, Object... args) {
+		String data = String.format(msg, args);
+		System.out.println(data);
+		return data;
 	}
 
 	public static String rootHost(String url) {
 		try {
 			return getTopPrivateDomain(url);
-		} catch (URISyntaxException e) {
+		} catch (Exception e) {
 			System.err.println(url);
 			//e.printStackTrace();
 		}
@@ -85,12 +241,9 @@ public class ArticleLinkExtractor {
 		URL aURL;
 		try {
 			aURL = new java.net.URL(url);
-			// System.out.println("host = " + aURL.getHost()); //example.com
 			return aURL.getHost();
-		} catch (MalformedURLException e) {
-			System.out.println(url);
-			System.err.println(url);
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println("Get host error: " + url);
 		}
 
 		return result;
@@ -110,9 +263,21 @@ public class ArticleLinkExtractor {
 	public static Document getDocument(String pageUrl) {
 		Document doc = null;
 		try {
-			doc = JSUtil.getPage(pageUrl);
-		} catch (IOException e) {
-			System.err.println(pageUrl);
+			doc = JsUtil.getPage(pageUrl);
+		} catch (Exception e) {
+			System.err.println("Get document exception: " + e.getMessage() + pageUrl);
+			//e.printStackTrace();
+		}
+
+		return doc;
+	}
+	
+	public static Document getJsDocument(String pageUrl) {
+		Document doc = null;
+		try {
+			doc = JsUtil.getPage(pageUrl);
+		} catch (Exception e) {
+			System.err.println("Get document exception: " + e.getMessage() + pageUrl);
 			//e.printStackTrace();
 		}
 
